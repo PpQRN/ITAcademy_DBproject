@@ -28,5 +28,4 @@ public class TransactionQueryExecutor {
         preparedStatement.executeUpdate();
         preparedStatement.close();
     }
-
 }

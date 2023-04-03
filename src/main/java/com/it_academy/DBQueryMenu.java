@@ -23,8 +23,9 @@ public class DBQueryMenu {
                 case "1" -> menuUser(connection);
                 case "2" -> menuAccount(connection);
                 case "3" -> menuTransactions(connection);
-//                case "4" -> {}
-//                default -> System.out.println("No such option");
+                case "4" -> {
+                }
+                default -> System.out.println("No such option");
             }
         } while (!"4".equals(action));
         connection.close();
@@ -90,6 +91,8 @@ public class DBQueryMenu {
                         TransactionService.inputTransaction(connection, "deposit"));
                 case "2" -> transactionQueryExecutor.withdrawalFunds(connection,
                         TransactionService.inputTransaction(connection, "withdrawal"));
+                case "3" -> {
+                }
                 default -> System.out.println("No such option");
             }
         } while (!"3".equals(action));
