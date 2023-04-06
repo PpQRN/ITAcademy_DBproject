@@ -36,6 +36,7 @@ public class DBQueryMenu {
             printMenuUser();
             action = new Scanner(System.in).nextLine();
             UserQueryExecutor userQueryExecutor = new UserQueryExecutor();
+            AccountQueryExecutor accountQueryExecutor = new AccountQueryExecutor();
             switch (action) {
                 case "1" -> userQueryExecutor.printAllUsers(connection);
                 case "2" -> userQueryExecutor.addUser(connection, UserService.inputUser());
@@ -44,6 +45,7 @@ public class DBQueryMenu {
                     userQueryExecutor.printAllUsers(connection);
                     int idForDelete = new Scanner(System.in).nextInt();
                     userQueryExecutor.deleteUser(connection, idForDelete);
+                    accountQueryExecutor.deleteUserAccounts(connection, idForDelete);
                 }
                 case "4" -> {
                     System.out.println("Enter id for update");
@@ -88,9 +90,9 @@ public class DBQueryMenu {
             TransactionQueryExecutor transactionQueryExecutor = new TransactionQueryExecutor();
             switch (action) {
                 case "1" -> transactionQueryExecutor.depositFunds(connection,
-                        TransactionService.inputTransaction(connection, "deposit"));
+                        TransactionService.inputTransaction(connection));
                 case "2" -> transactionQueryExecutor.withdrawalFunds(connection,
-                        TransactionService.inputTransaction(connection, "withdrawal"));
+                        TransactionService.inputTransaction(connection));
                 case "3" -> {
                 }
                 default -> System.out.println("No such option");

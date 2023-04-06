@@ -9,10 +9,10 @@ import java.util.Scanner;
 
 public class TransactionService {
 
-    public static Transaction inputTransaction(Connection connection, String transactionType) throws SQLException {
+    public static Transaction inputTransaction(Connection connection) throws SQLException {
         Transaction transaction = new Transaction();
         setAccountID(connection, transaction);
-        setAmount(connection, transaction, transactionType);
+        setAmount(transaction);
         return transaction;
     }
 
@@ -30,12 +30,12 @@ public class TransactionService {
                 transaction.setAccountID(accountID);
                 return;
             } catch (NumberFormatException e) {
-                System.out.println("Input error, Enter valid sum of transaction");
+                System.out.println("Input error, Enter valid Account");
             }
         }
     }
 
-    public static void setAmount(Connection connection, Transaction transaction, String transactionType) throws SQLException {
+    public static void setAmount(Transaction transaction) {
         int amount;
         while (true) {
             try {
@@ -45,13 +45,10 @@ public class TransactionService {
                     System.out.println("Illegal sum. Enter positive numbers, not more than 100 000 000 ");
                     continue;
                 }
-                AccountService.isTransactionAvailable(connection, transaction.getAccountID(), amount, transactionType);
                 transaction.setAmount(amount);
                 return;
             } catch (NumberFormatException e) {
                 System.out.println("Input error, Enter valid sum of transaction");
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
             }
         }
     }

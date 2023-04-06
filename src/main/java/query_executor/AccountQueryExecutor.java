@@ -43,4 +43,12 @@ public class AccountQueryExecutor {
         preparedStatement.executeUpdate();
         preparedStatement.close();
     }
+
+    public void deleteUserAccounts(Connection connection, int idForDelete) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "DELETE FROM Accounts WHERE userID=?");
+        preparedStatement.setInt(1, idForDelete);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+    }
 }

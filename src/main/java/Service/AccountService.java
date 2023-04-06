@@ -1,6 +1,7 @@
 package Service;
 
 import Entity.Account;
+import Entity.Transaction;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -67,17 +68,19 @@ public class AccountService {
         return resultSet.next();
     }
 
-    public static void isTransactionAvailable(Connection connection, int accountID, int amount, String transactionType) throws SQLException {
+    public static void isDepositAvailable(Connection connection, Transaction transaction) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT balance FROM Accounts where accountID=" + accountID);
-        if (transactionType.equals("deposit")) {
-            if ((amount + resultSet.getInt("balance")) > 100000000) {
-                throw new IllegalArgumentException("Sorry, you can't store more than 100 000 000, try to make a smaller deposit");
-            }
-        } else {
-            if ((resultSet.getInt("balance") - amount) < 0) {
+        ResultSet resultSet = statement.executeQuery("SELECT balance FROM Accounts where accountID=" + transaction.getAccountID());
+        if ((transaction.getAmount() + resultSet.getInt("balance")) > 100000000) {
+            throw new IllegalArgumentException("Sorry, you can't store more than 100 000 000, try to make a smaller deposit");
+        }
+    }
+
+    public static void isWithdrawalAvailable(Connection connection, Transaction transaction) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT balance FROM Accounts where accountID=" + transaction.getAccountID());
+            if ((resultSet.getInt("balance") - transaction.getAmount()) < 0) {
                 throw new IllegalArgumentException("Sorry, you don't have enough money, try to withdrawal less money");
             }
         }
-    }
 }
