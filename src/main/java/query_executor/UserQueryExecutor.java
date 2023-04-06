@@ -37,10 +37,10 @@ public class UserQueryExecutor {
 
     public void updateUser(Connection connection, int idForUpdate, User user) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(
-                "UPDATE Users SET name=?, address=? WHERE id=?");
+                "UPDATE Users SET name=?, address=? WHERE userID=?");
         preparedStatement.setString(1, user.getName());
         preparedStatement.setString(2, user.getAddress());
-        preparedStatement.setInt(4, idForUpdate);
+        preparedStatement.setInt(3, idForUpdate);
         preparedStatement.executeUpdate();
         preparedStatement.close();
     }
