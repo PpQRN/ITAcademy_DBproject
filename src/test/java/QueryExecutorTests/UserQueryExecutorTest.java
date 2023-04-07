@@ -1,3 +1,5 @@
+package QueryExecutorTests;
+
 import Entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,8 +30,8 @@ class UserQueryExecutorTest {
         ResultSet resultSet = Mockito.mock(ResultSet.class);
         Mockito.when(resultSet.next()).thenReturn(true).thenReturn(false);
         Mockito.when(resultSet.getInt("userID")).thenReturn(1);
-        Mockito.when(resultSet.getString("name")).thenReturn("John");
-        Mockito.when(resultSet.getString("address")).thenReturn("123 Main St");
+        Mockito.when(resultSet.getString("name")).thenReturn("Sasha");
+        Mockito.when(resultSet.getString("address")).thenReturn("Minsk");
 
         // mock Statement
 
@@ -54,7 +56,7 @@ class UserQueryExecutorTest {
     @Test
     void addUser() throws SQLException {
         // test data
-        User user = new User("123 Main St", "John");
+        User user = new User("Minsk", "Sasha");
 
         // mock PreparedStatement
         PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
@@ -65,8 +67,8 @@ class UserQueryExecutorTest {
 
         // verify that the query was executed with correct parameters
         Mockito.verify(connection, Mockito.times(1)).prepareStatement("INSERT INTO Users (name, address) VALUES (?, ?)");
-        Mockito.verify(preparedStatement, Mockito.times(1)).setString(1, "John");
-        Mockito.verify(preparedStatement, Mockito.times(1)).setString(2, "123 Main St");
+        Mockito.verify(preparedStatement, Mockito.times(1)).setString(1, "Sasha");
+        Mockito.verify(preparedStatement, Mockito.times(1)).setString(2, "Minsk");
         Mockito.verify(preparedStatement, Mockito.times(1)).execute();
         Mockito.verify(preparedStatement, Mockito.times(1)).close();
     }
@@ -94,7 +96,7 @@ class UserQueryExecutorTest {
     void updateUser() throws SQLException {
         // test data
         int idForUpdate = 1;
-        User user = new User("123 Main St", "John");
+        User user = new User("Minsk", "Sasha");
 
         // mock PreparedStatement
         PreparedStatement preparedStatement = Mockito.mock(PreparedStatement.class);
@@ -106,8 +108,8 @@ class UserQueryExecutorTest {
 
         // verify that the query was executed with correct parameters
         Mockito.verify(connection, Mockito.times(1)).prepareStatement("UPDATE Users SET name=?, address=? WHERE userID=?");
-        Mockito.verify(preparedStatement, Mockito.times(1)).setString(1, "John");
-        Mockito.verify(preparedStatement, Mockito.times(1)).setString(2, "123 Main St");
+        Mockito.verify(preparedStatement, Mockito.times(1)).setString(1, "Sasha");
+        Mockito.verify(preparedStatement, Mockito.times(1)).setString(2, "Minsk");
         Mockito.verify(preparedStatement, Mockito.times(1)).setInt(3, 1);
         Mockito.verify(preparedStatement, Mockito.times(1)).executeUpdate();
         Mockito.verify(preparedStatement, Mockito.times(1)).close();

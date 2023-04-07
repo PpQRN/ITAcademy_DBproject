@@ -17,6 +17,14 @@ public class Transaction {
     public Transaction() {
     }
 
+    public Transaction(int accountID) {
+    }
+
+    public Transaction(int accountID, int amount) {
+        this.amount = amount;
+        this.accountID = accountID;
+    }
+
     public int getTransactionID() {
         return transactionID;
     }

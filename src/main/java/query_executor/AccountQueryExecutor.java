@@ -11,7 +11,11 @@ public class AccountQueryExecutor {
         Statement statement = connection.createStatement();
         ResultSet result = statement.executeQuery("SELECT balance FROM Accounts where accountID="
                 +transaction.getAccountID());
-        return result.getInt("balance");
+        if (result.next()) {
+            return result.getInt("balance");
+        } else {
+            return 0;
+        }
     }
 
     public void printAllAccounts(Connection connection) throws SQLException {

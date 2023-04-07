@@ -19,6 +19,11 @@ public class Account {
         this.currency = currency;
     }
 
+    public Account(int userID, String currency) {
+        this.userID = userID;
+        this.currency = currency;
+    }
+
     public int getAccountID() {
         return accountID;
     }

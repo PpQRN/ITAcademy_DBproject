@@ -3,6 +3,7 @@ package com.it_academy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 
 public class ApplicationDB {
 
@@ -18,6 +19,8 @@ public class ApplicationDB {
             DBQueryMenu.menu(connection);
         } catch (SQLException e) {
             System.out.println("ooops connection failed :,(");
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
         }
     }
 
