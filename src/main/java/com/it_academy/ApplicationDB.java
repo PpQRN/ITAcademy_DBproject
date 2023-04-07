@@ -3,7 +3,6 @@ package com.it_academy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 
 public class ApplicationDB {
 

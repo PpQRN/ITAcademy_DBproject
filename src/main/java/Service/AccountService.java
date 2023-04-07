@@ -70,7 +70,12 @@ public class AccountService {
 
     public static void isDepositAvailable(Connection connection, Transaction transaction) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT balance FROM Accounts where accountID=" + transaction.getAccountID());
+        int accountID = transaction.getAccountID();
+        String sql = "SELECT balance FROM Accounts WHERE accountID=" + accountID;
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (!resultSet.next()) {
+            throw new IllegalArgumentException(String.format("No accounts with id %s", accountID));
+        }
         if ((transaction.getAmount() + resultSet.getInt("balance")) > 2000000000) {
             throw new IllegalArgumentException("Sorry, you can't store more than 100 000 000, try to make a smaller deposit");
         }
@@ -78,9 +83,15 @@ public class AccountService {
 
     public static void isWithdrawalAvailable(Connection connection, Transaction transaction) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT balance FROM Accounts where accountID=" + transaction.getAccountID());
+        int accountID = transaction.getAccountID();
+        String sql = "SELECT balance FROM Accounts WHERE accountID=" + accountID;
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (!resultSet.next()) {
+            throw new IllegalArgumentException(String.format("No accounts with id %s", accountID));
+        }
         if ((resultSet.getInt("balance") - transaction.getAmount()) < 0) {
             throw new IllegalArgumentException("Sorry, you don't have enough money, try to withdrawal less money");
         }
     }
 }
+

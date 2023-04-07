@@ -33,9 +33,10 @@ public class AccountQueryExecutor {
 
     public void addAccount(Connection connection, Account account) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO Accounts (userID, currency) VALUES (?, ?)");
+                "INSERT INTO Accounts (userID, currency, balance) VALUES (?, ?, ?)");
         preparedStatement.setInt(1, account.getUserID());
         preparedStatement.setString(2, account.getCurrency());
+        preparedStatement.setInt(3, account.getBalance());
         preparedStatement.execute();
         preparedStatement.close();
     }

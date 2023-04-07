@@ -22,6 +22,7 @@ public class Account {
     public Account(int userID, String currency) {
         this.userID = userID;
         this.currency = currency;
+        balance = 0;
     }
 
     public int getAccountID() {

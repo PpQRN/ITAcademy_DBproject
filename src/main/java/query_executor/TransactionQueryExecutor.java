@@ -48,12 +48,4 @@ public class TransactionQueryExecutor {
         preparedStatement.execute();
         preparedStatement.close();
     }
-
-    public void deleteUser(Connection connection, int idForDelete) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "DELETE FROM Users WHERE userID=?");
-        preparedStatement.setInt(1, idForDelete);
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
-    }
 }

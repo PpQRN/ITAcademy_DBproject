@@ -39,7 +39,6 @@ public class AccountQueryExecutorTest {
 
     @Test
     void testGetAmount() throws SQLException {
-        // Arrange
         int expectedBalance = 100;
         int accountID = 1;
         Transaction transaction = new Transaction(accountID);
@@ -48,11 +47,7 @@ public class AccountQueryExecutorTest {
                 .thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true);
         when(resultSet.getInt("balance")).thenReturn(expectedBalance);
-
-        // Act
         int actualBalance = AccountQueryExecutor.getAmount(connection, transaction);
-
-        // Assert
         assertEquals(expectedBalance, actualBalance);
         verify(connection, times(1)).createStatement();
         verify(statement, times(1)).executeQuery("SELECT balance FROM Accounts where accountID=" + transaction.getAccountID());
@@ -61,7 +56,6 @@ public class AccountQueryExecutorTest {
 
     @Test
     void testPrintAllAccounts() throws SQLException {
-        // Arrange
         when(connection.createStatement()).thenReturn(statement);
         when(statement.executeQuery("SELECT * FROM Accounts;")).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true).thenReturn(false);
@@ -69,11 +63,7 @@ public class AccountQueryExecutorTest {
         when(resultSet.getInt("userID")).thenReturn(2);
         when(resultSet.getInt("balance")).thenReturn(100);
         when(resultSet.getString("currency")).thenReturn("USD");
-
-        // Act
         accountQueryExecutor.printAllAccounts(connection);
-
-        // Assert
         verify(connection, times(1)).createStatement();
         verify(statement, times(1)).executeQuery("SELECT * FROM Accounts;");
         verify(resultSet, times(2)).next();
@@ -85,17 +75,12 @@ public class AccountQueryExecutorTest {
 
     @Test
     void testAddAccount() throws SQLException {
-        // Arrange
         Account account = new Account(1, "USD");
-
-        when(connection.prepareStatement("INSERT INTO Accounts (userID, currency) VALUES (?, ?)"))
+        when(connection.prepareStatement("INSERT INTO Accounts (userID, currency, balance) VALUES (?, ?, ?)"))
                 .thenReturn(preparedStatement);
-
-        // Act
         accountQueryExecutor.addAccount(connection, account);
-
-        // Assert
-        verify(connection, times(1)).prepareStatement("INSERT INTO Accounts (userID, currency) VALUES (?, ?)");
+        verify(connection, times(1)).prepareStatement(
+                "INSERT INTO Accounts (userID, currency, balance) VALUES (?, ?, ?)");
         verify(preparedStatement, times(1)).setInt(1, account.getUserID());
         verify(preparedStatement, times(1)).setString(2, account.getCurrency());
         verify(preparedStatement, times(1)).execute();
@@ -103,16 +88,10 @@ public class AccountQueryExecutorTest {
 
     @Test
     void testDeleteAccount() throws SQLException {
-        // Arrange
         int idForDelete = 1;
-
         when(connection.prepareStatement("DELETE FROM Accounts WHERE accountID=?"))
                 .thenReturn(preparedStatement);
-
-        // Act
         accountQueryExecutor.deleteAccount(connection, idForDelete);
-
-        // Assert
         verify(connection, times(1)).prepareStatement("DELETE FROM Accounts WHERE accountID=?");
         verify(preparedStatement, times(1)).setInt(1, idForDelete);
         verify(preparedStatement, times(1)).executeUpdate();
@@ -120,16 +99,10 @@ public class AccountQueryExecutorTest {
 
     @Test
     void testDeleteUserAccounts() throws SQLException {
-        // Arrange
         int idForDelete = 1;
-
         when(connection.prepareStatement("DELETE FROM Accounts WHERE userID=?"))
                 .thenReturn(preparedStatement);
-
-        // Act
         accountQueryExecutor.deleteUserAccounts(connection, idForDelete);
-
-        // Assert
         verify(connection, times(1)).prepareStatement("DELETE FROM Accounts WHERE userID=?");
         verify(preparedStatement, times(1)).setInt(1, idForDelete);
         verify(preparedStatement, times(1)).executeUpdate();
